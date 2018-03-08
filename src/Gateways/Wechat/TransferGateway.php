@@ -28,7 +28,10 @@ class TransferGateway extends Gateway
 
         $payload['mch_appid'] = $this->config->get($type, '');
         $payload['mchid'] = $payload['mch_id'];
-        $payload['spbill_create_ip'] = Request::createFromGlobals()->server->get('SERVER_ADDR');
+
+        if (!$payload['spbill_create_ip']) {
+            $payload['spbill_create_ip'] = Request::createFromGlobals()->server->get('SERVER_ADDR');
+        }
 
         unset($payload['appid'], $payload['mch_id'], $payload['trade_type'],
             $payload['notify_url'], $payload['type']);
